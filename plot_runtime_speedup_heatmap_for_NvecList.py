@@ -11,6 +11,10 @@ import os
 OUTDIR = "combined_plots"
 os.makedirs(OUTDIR, exist_ok=True)
 
+INDIVDIR = os.path.join(OUTDIR, "individual")
+os.makedirs(INDIVDIR, exist_ok=True)
+
+
 
 # ============================================================
 #                LOAD CSV + PREPARE FIELDS
@@ -52,7 +56,7 @@ for Nvec in nvecs_sorted:
     plt.grid(True, linestyle="--", alpha=0.4)
 
     fname = f"runtime_Nvec_{int(Nvec)}.png"
-    path_runtime = os.path.join(OUTDIR, fname)
+    path_runtime = os.path.join(INDIVDIR, fname)
     runtime_pngs.append(path_runtime)
 
     plt.savefig(path_runtime, dpi=200, bbox_inches="tight")
@@ -72,7 +76,7 @@ for Nvec in nvecs_sorted:
     plt.grid(True, linestyle="--", alpha=0.4)
 
     fname_s = f"speedup_Nvec_{int(Nvec)}.png"
-    path_speedup = os.path.join(OUTDIR, fname_s)
+    path_speedup = os.path.join(INDIVDIR, fname_s)
     speedup_pngs.append(path_speedup)
 
     plt.savefig(path_speedup, dpi=200, bbox_inches="tight")
