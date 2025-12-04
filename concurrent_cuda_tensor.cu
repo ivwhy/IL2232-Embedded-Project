@@ -10,7 +10,8 @@
 #include <mma.h>
 #include <cuda_fp16.h>
 #include <cuda_runtime.h>
-//# include <cmath> 
+#include <sys/stat.h>
+#include <fstream>
 using namespace nvcuda;
 
 
@@ -75,6 +76,46 @@ static void init_half(half* h, int n, float seed) {
     for (int i = 0; i < n; ++i){
         h[i] = __float2half(seed + (i % 13) * 0.01f); 
     }
+}
+
+
+bool file_exists(const char* filename) {
+    struct stat buffer;
+    return (stat(filename, &buffer) == 0);
+}
+
+void append_csv_row(int Nvec, int iters, int tensor_iters,
+                    int M, int N, int K, int repeats,
+                    float cuda_ms, float tensor_ms,
+                    float serialized_ms, float conc_ms)
+{
+    const char* filename = "results_cuda.csv";
+
+    bool exists = file_exists(filename);
+
+    std::ofstream file;
+    file.open(filename, std::ios::app);
+
+    if (!exists) {
+        // Write header once
+        file << "Nvec,iters,tensor_iters,M,N,K,repeats,"
+                "cuda_ms,tensor_ms,serialized_ms,concurrent_ms\n";
+    }
+
+    // Write the actual row
+    file << Nvec << ","
+         << iters << ","
+         << tensor_iters << ","
+         << M << ","
+         << N << ","
+         << K << ","
+         << repeats << ","
+         << cuda_ms << ","
+         << tensor_ms << ","
+         << serialized_ms << ","
+         << conc_ms << "\n";
+
+    file.close();
 }
 
 
@@ -194,6 +235,31 @@ int main(int argc, char** argv) {
 
     printf("Concurrent total time (avg)=%.3f ms (repeats=%d)\n", ms_conc_avg, repeats);
 
+    // Append results to CSV (with auto header)
+    append_csv_row(
+        Nvec, iters, tensor_iters,
+        M, N, K, repeats,
+        ms_cuda_avg, ms_tensor_avg,
+        ms_cuda_avg + ms_tensor_avg,
+        ms_conc_avg
+    );
+
+    // // --- Append results to CSV file ---
+    // // Format matches run_sweep.py:
+    // // Nvec, iters, tensor_iters, M, N, K, Repeats,
+    // // cuda_ms, tensor_ms, serialized_ms, concurrent_ms
+    // FILE* fp = fopen("results_cuda.csv", "a");
+    // if (fp) {
+    //     fprintf(fp, "%d,%d,%d,%d,%d,%d,%d,%.6f,%.6f,%.6f,%.6f\n",
+    //             Nvec, iters, tensor_iters, M, N, K, repeats,
+    //             ms_cuda_avg,
+    //             ms_tensor_avg,
+    //             ms_cuda_avg + ms_tensor_avg,
+    //             ms_conc_avg);
+    //     fclose(fp);
+    // } else {
+    //     printf("[WARN] Could not open results_cuda.csv for writing.\n");
+    // }
 
     // Cleanup
     cudaEventDestroy(s1); cudaEventDestroy(s2); cudaEventDestroy(s3); cudaEventDestroy(s4); cudaEventDestroy(cStart); cudaEventDestroy(cStop);
