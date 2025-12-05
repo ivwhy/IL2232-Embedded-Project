@@ -331,6 +331,11 @@ def main():
 
     print("\nResults saved to: results.csv\n")
 
+    subprocess.run(
+        ["python3", "plot_runtime_speedup_heatmap_for_NvecList.py"],
+        check=True
+    )
+
 
 if __name__ == "__main__":
     main()

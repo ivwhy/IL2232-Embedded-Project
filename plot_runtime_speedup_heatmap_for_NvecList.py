@@ -3,15 +3,19 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 import os
+from datetime import datetime
 
 
 # ============================================================
 #                OUTPUT DIRECTORY
 # ============================================================
-OUTDIR = "combined_plots"
+timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+BASE_OUTDIR = "combined_plots"
+OUTDIR = os.path.join(BASE_OUTDIR, timestamp)
+
 os.makedirs(OUTDIR, exist_ok=True)
 
-INDIVDIR = os.path.join(OUTDIR, "individual")
+INDIVDIR = os.path.join(OUTDIR, "individual_plots")
 os.makedirs(INDIVDIR, exist_ok=True)
 
 
