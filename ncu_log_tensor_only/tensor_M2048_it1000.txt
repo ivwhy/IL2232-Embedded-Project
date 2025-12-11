@@ -1,0 +1,64 @@
+M=2048, N=2048, K=2048, tensor_iters=1000
+==PROF== Connected to process 2942565 (/home/ivy/custom_workloads/git_repo/tensor_core_only)
+==PROF== Profiling "wmma_gemm_kernel" - 0: 0%....50%....100% - 9 passes
+==PROF== Profiling "wmma_gemm_kernel" - 1: 0%....50%....100% - 9 passes
+Tensor Core WMMA GEMM: 2048x2048x2048 tensor_iters=1000 time=11449.724 ms
+Sample C[mid,mid]=4369223.500000
+==PROF== Disconnected from process 2942565
+[2942565] tensor_core_only@127.0.0.1
+  wmma_gemm_kernel(const __half *, const __half *, float *, int, int, int, int) (128, 128, 1)x(32, 1, 1), Context 1, Stream 7, Device 0, CC 8.6
+    Section: GPU Speed Of Light Throughput
+    ----------------------- ------------- ----------------
+    Metric Name               Metric Unit     Metric Value
+    ----------------------- ------------- ----------------
+    DRAM Frequency          cycle/nsecond             9,24
+    SM Frequency            cycle/nsecond             1,36
+    Elapsed Cycles                  cycle    1 711 688 687
+    Memory Throughput                   %            98,04
+    DRAM Throughput                     %            47,96
+    Duration                       second             1,25
+    L1/TEX Cache Throughput             %            99,48
+    L2 Cache Throughput                 %            56,80
+    SM Active Cycles                cycle 1 686 968 475,47
+    Compute (SM) Throughput             %            24,53
+    ----------------------- ------------- ----------------
+
+    INF   The kernel is utilizing greater than 80.0% of the available compute or memory performance of the device. To   
+          further improve performance, work will likely need to be shifted from the most utilized to another unit.      
+          Start by analyzing L1 in the Memory Workload Analysis section.                                                
+
+    Section: Launch Statistics
+    -------------------------------- --------------- ---------------
+    Metric Name                          Metric Unit    Metric Value
+    -------------------------------- --------------- ---------------
+    Block Size                                                    32
+    Function Cache Configuration                     CachePreferNone
+    Grid Size                                                 16 384
+    Registers Per Thread             register/thread              40
+    Shared Memory Configuration Size           Kbyte           16,38
+    Driver Shared Memory Per Block       Kbyte/block            1,02
+    Dynamic Shared Memory Per Block       byte/block               0
+    Static Shared Memory Per Block        byte/block               0
+    Threads                                   thread         524 288
+    Waves Per SM                                               12,80
+    -------------------------------- --------------- ---------------
+
+    Section: Occupancy
+    ------------------------------- ----------- ------------
+    Metric Name                     Metric Unit Metric Value
+    ------------------------------- ----------- ------------
+    Block Limit SM                        block           16
+    Block Limit Registers                 block           48
+    Block Limit Shared Mem                block           16
+    Block Limit Warps                     block           48
+    Theoretical Active Warps per SM        warp           16
+    Theoretical Occupancy                     %        33,33
+    Achieved Occupancy                        %        32,94
+    Achieved Active Warps Per SM           warp        15,81
+    ------------------------------- ----------- ------------
+
+    OPT   This kernel's theoretical occupancy (33.3%) is limited by the number of blocks that can fit on the SM. This   
+          kernel's theoretical occupancy (33.3%) is limited by the required amount of shared memory. See the CUDA Best  
+          Practices Guide (https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#occupancy) for more      
+          details on optimizing occupancy.                                                                              
+

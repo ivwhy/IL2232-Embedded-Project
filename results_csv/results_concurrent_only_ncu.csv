@@ -1,0 +1,2 @@
+Nvec,iters,tensor_iters,M,N,K,Repeats,concurrent_ms
+256,150000000,10000000,256,256,256,3,380678.375

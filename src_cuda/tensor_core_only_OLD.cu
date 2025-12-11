@@ -13,35 +13,39 @@ using namespace nvcuda;
 
 
 // Each block = one warp computes one 16x16 C tile
-__global__ void wmma_gemm_kernel(const half* __restrict__ A,    // Shapes: A: M×K (FP16), B: K×N (FP16), C: M×N (FP32 accumulation)
+__global__ void wmma_gemm_kernel(const half* __restrict__ A,
                                 const half* __restrict__ B,
                                 float* __restrict__ C,
-                                int M, int N, int K) {
+                                int M, int N, int K, 
+                                int tensor_iters) {
+    int tileRow = blockIdx.y;     // along M
+    int tileCol = blockIdx.x;     // along N
 
-    int tileRow = blockIdx.y; // along M
-    int tileCol = blockIdx.x; // along N
-                                                                // Declare WMMA fragments (register tiles managed at warp scope)
-    wmma::fragment<wmma::matrix_a, 16, 16, 16, half, wmma::row_major> aFrag;   // 16×16×16 tile for A, FP16, row-major.
-    wmma::fragment<wmma::matrix_b, 16, 16, 16, half, wmma::col_major> bFrag;   // 16×16×16 tile for B, FP16, col-major (important for correct Tensor Core MMA layout).
-    wmma::fragment<wmma::accumulator, 16, 16, 16, float> cFrag;                // accumulator tile (the partial sum), FP32.
+    wmma::fragment<wmma::matrix_a, 16, 16, 16, half, wmma::row_major> aFrag;    // Declare WMMA fragments
+    wmma::fragment<wmma::matrix_b, 16, 16, 16, half, wmma::col_major> bFrag;
+    wmma::fragment<wmma::accumulator, 16, 16, 16, float> cFrag;
+    wmma::fill_fragment(cFrag, 0.0f);
 
-    wmma::fill_fragment(cFrag, 0.0f);                           // Initialize the accumulator tile to zeros.
+    int row = tileRow * 16;                           
+    int col = tileCol * 16;   
+    
+    // Initialize accumulator once
+    wmma::fill_fragment(cFrag, 0.0f);
 
-    // Compute base pointers for this C tile
-    int row = tileRow * 16;                           // Top-left coordinates (row, col) of the 16×16 C tile this block computes.
-    int col = tileCol * 16;
+    // NEW: repeat the GEMM body tensor_iters times
+    for (int rep = 0; rep < tensor_iters; ++rep) {
 
-    for (int k = 0; k < K; k += 16) {                 // Tensor Cores multiply 16×16×16 chunks; loop over K in steps of 16 to accumulate the full dot product.
-        const half* tileA = A + row * K + k;
-        const half* tileB = B + k * N + col; // we store B in column-major logically
-        wmma::load_matrix_sync(aFrag, tileA, K);
-        wmma::load_matrix_sync(bFrag, tileB, N);
-        wmma::mma_sync(cFrag, aFrag, bFrag, cFrag);
+        for (int k = 0; k < K; k += 16) {                  // Tensor Cores multiply 16×16×16 chunks; loop over K in steps of 16 to accumulate the full dot product.
+            const half* tileA = A + row * K + k;
+            const half* tileB = B + k * N + col;
+            wmma::load_matrix_sync(aFrag, tileA, K);
+            wmma::load_matrix_sync(bFrag, tileB, N);
+            wmma::mma_sync(cFrag, aFrag, bFrag, cFrag);
+        }
     }
-
-    // Store C tile (row-major)
+    
     float* tileC = C + row * N + col;
-    wmma::store_matrix_sync(tileC, cFrag, N, wmma::mem_row_major);
+    wmma::store_matrix_sync(tileC, cFrag, N, wmma::mem_row_major);     // Store C tile (row-major)
 }
 
 // initialize an array of half with a small repeating pattern starting at seed. Converts from float to half using __float2half.

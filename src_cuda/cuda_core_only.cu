@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
     //fprintf(stderr, "before get props\n"); //
     CHECK_CUDA(cudaGetDeviceProperties(&prop, dev));
     //fprintf(stderr, "after get props\n"); //
-    printf("GPU: %s (cc %d.%d)\n", prop.name, prop.major, prop.minor);
+    // printf("GPU: %s (cc %d.%d)\n", prop.name, prop.major, prop.minor);
     printf("N=%d, iters=%d\n", N, iters);
     //CHECK_CUDA(cudaFree(0));  // creates context without allocating anything
 

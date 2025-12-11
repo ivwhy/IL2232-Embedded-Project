@@ -3,32 +3,11 @@ import re
 import csv
 import os
 
-# =========================== Parameters 1 ==================================
-# ITERS = 2000000         # inner loop in CUDA-core kernel
-# TENSOR_ITERS = 100000   # inner loop in WMMA kernel (inside wmma_gemm_kernel)
-# REPEATS = 3           # outer repeat in timed region
+NCU_LOG_DIR = "ncu_logs_serial_concurrent"
 
-# NVECS = [
-#     1 << 8,
-#     1 << 10,
-#     1 << 12,
-#     1 << 14,
-#     1 << 16,
-#     #1 << 18,
-#     #1 << 20,
-#     #1 << 22
-# ]
-
-# M_SIZES = [
-#     16,
-#     32,
-#     64,
-#     128,
-#     256,
-#     #512,
-#     #1024,
-#     #2048,
-# ]
+BIN_DIR = "bin_concurrent"
+SRC = "concurrent_only.cu"
+BINARY = os.path.join(BIN_DIR, "concurrent_only")
 
 
 # =========================== Parameters 2 ==================================
@@ -50,14 +29,14 @@ NVECS = [
 ]
 
 M_SIZES = [
-    16,
-    32,
-    64,
-    128,
-    #256,
-    #512,
-    #1024,
-    #2048,
+    # 16,
+    # 32,
+    # 64,
+    # 128,
+    256,
+    512,
+    1024,
+    2048,
 ]
 
 # =================== Helper: trim ncu logs per kernel ======================
@@ -117,95 +96,35 @@ def trim_ncu_log(log_path):
 
     print(f"[INFO] Trimmed Nsight log to first report per kernel: {log_path}")
 
+def ensure_binary():
+    """
+    Ensure bin_cuda/cuda_core_only exists.
+    If not, build it with:
+      nvcc -O3 -arch=sm_80 cuda_core_only.cu -o bin_cuda/cuda_core_only
+    """
+    os.makedirs(BIN_DIR, exist_ok=True)
 
-# ./concurrent_cuda_tensor Nvec iters M N K tensor_iters repeats
-# def run_case(Nvec, iters, M, N, K, tensor_iters, repeats, use_ncu=True):
-    app_cmd = [
-        "./concurrent_cuda_tensor",
-        str(Nvec),
-        str(iters),
-        str(M),
-        str(N),
-        str(K),
-        str(tensor_iters),
-        str(repeats),
+    if os.path.exists(BINARY):
+        return  # already built
+
+    print(f"[INFO] Building {BINARY} from {SRC} ...")
+    cmd = [
+        "nvcc",
+        "-O3",
+        "-arch=sm_80",
+        SRC,
+        "-o",
+        BINARY,
     ]
-
-    log_file = None
-    if use_ncu:
-        log_file = f"ncu_N{Nvec}_M{M}.txt"
-        cmd = [
-            "ncu",
-            "--set", "full",
-            "--target-processes", "all",
-            "--force-overwrite",
-            "--log-file", log_file,
-            "--",
-            *app_cmd,
-        ]
-    else:
-        cmd = app_cmd
-
-    # Run (possibly under ncu)
-    result = subprocess.run(
-        cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
-
-    # If ncu failed, warn and fall back to plain execution
-    if use_ncu and result.returncode != 0:
-        print(f"[WARN] ncu returned code {result.returncode} for Nvec={Nvec}, M={M}")
-        print("[WARN] ncu stderr:\n", result.stderr)
-        print("[WARN] ncu stdout (truncated):\n", result.stdout[:400], "...\n")
-        log_file = None  # don't try to trim a broken log
-
-        result = subprocess.run(
-            app_cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-        )
-
+    result = subprocess.run(cmd, text=True)
     if result.returncode != 0:
-        raise RuntimeError(
-            f"concurrent_cuda_tensor failed (code {result.returncode})\n"
-            f"stderr:\n{result.stderr}"
-        )
+        raise RuntimeError(f"nvcc build failed with code {result.returncode}")
+    print(f"[INFO] Build complete: {BINARY}")
 
-    # If ncu worked and produced a log, trim repeated kernel reports
-    if use_ncu and log_file is not None and os.path.exists(log_file):
-        trim_ncu_log(log_file)
-
-    out = result.stdout
-
-    # Parse serialized CUDA & Tensor timings (averages)
-    m = re.search(
-        r"CUDA-only \(avg\)=([0-9.]+) ms, Tensor-only \(avg\)=([0-9.]+) ms",
-        out
-    )
-    if not m:
-        raise RuntimeError(f"Could not parse serialized timings from:\n{out}")
-    cuda_ms = float(m.group(1))
-    tensor_ms = float(m.group(2))
-
-    # Parse concurrent timing (average)
-    c = re.search(
-        r"Concurrent total time \(avg\)=([0-9.]+) ms",
-        out
-    )
-    if not c:
-        raise RuntimeError(f"Could not parse concurrent timing from:\n{out}")
-    conc_ms = float(c.group(1))
-
-    return cuda_ms, tensor_ms, conc_ms, out
-
-import subprocess
 
 def run_case(Nvec, iters, M, N, K, tensor_iters, repeats, use_ncu=True):
     app_cmd = [
-        "./concurrent_cuda_tensor",
+        ". ../src_cuda/bin_cuda/sweep_serial_concurrent",
         str(Nvec),
         str(iters),
         str(M),
@@ -221,7 +140,12 @@ def run_case(Nvec, iters, M, N, K, tensor_iters, repeats, use_ncu=True):
         # No extra options: use the simplest form that we know works:
         #   ncu ./concurrent_cuda_tensor ...
         cmd = ["ncu", *app_cmd]
-        log_file = f"ncu_N{Nvec}_M{M}.txt"
+
+        # Ensure the log directory exists
+        os.makedirs(NCU_LOG_DIR, exist_ok=True)
+        log_file = os.path.join(NCU_LOG_DIR, f"ncu_N{Nvec}_M{M}.txt")
+
+        # log_file = f"ncu_N{Nvec}_M{M}.txt"
     else:
         cmd = app_cmd
 

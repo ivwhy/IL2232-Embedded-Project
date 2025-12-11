@@ -1,0 +1,65 @@
+==PROF== Connected to process 2837998 (/home/ivy/custom_workloads/git_repo/cuda_core_only)
+N=50000, iters=1500000
+==PROF== Profiling "cuda_core_fma_kernel" - 0: 0%....50%....100% - 9 passes
+==PROF== Profiling "cuda_core_fma_kernel" - 1: 0%....50%....100% - 9 passes
+CUDA-core kernel: N=50000 iters=1500000 time=473.639 ms
+==PROF== Disconnected from process 2837998
+[2837998] cuda_core_only@127.0.0.1
+  cuda_core_fma_kernel(const float *, const float *, float *, int, int) (196, 1, 1)x(256, 1, 1), Context 1, Stream 7, Device 0, CC 8.6
+    Section: GPU Speed Of Light Throughput
+    ----------------------- ------------- -------------
+    Metric Name               Metric Unit  Metric Value
+    ----------------------- ------------- -------------
+    DRAM Frequency          cycle/nsecond          9,24
+    SM Frequency            cycle/nsecond          1,36
+    Elapsed Cycles                  cycle    45 796 750
+    Memory Throughput                   %          0,01
+    DRAM Throughput                     %          0,00
+    Duration                      msecond         33,55
+    L1/TEX Cache Throughput             %          0,00
+    L2 Cache Throughput                 %          0,01
+    SM Active Cycles                cycle 35 837 339,92
+    Compute (SM) Throughput             %         59,99
+    ----------------------- ------------- -------------
+
+    OPT   This kernel grid is too small to fill the available resources on this device, resulting in only 0.4 full      
+          waves across all SMs. Look at Launch Statistics for more details.                                             
+
+    Section: Launch Statistics
+    -------------------------------- --------------- ---------------
+    Metric Name                          Metric Unit    Metric Value
+    -------------------------------- --------------- ---------------
+    Block Size                                                   256
+    Function Cache Configuration                     CachePreferNone
+    Grid Size                                                    196
+    Registers Per Thread             register/thread              16
+    Shared Memory Configuration Size           Kbyte            8,19
+    Driver Shared Memory Per Block       Kbyte/block            1,02
+    Dynamic Shared Memory Per Block       byte/block               0
+    Static Shared Memory Per Block        byte/block               0
+    Threads                                   thread          50 176
+    Waves Per SM                                                0,41
+    -------------------------------- --------------- ---------------
+
+    Section: Occupancy
+    ------------------------------- ----------- ------------
+    Metric Name                     Metric Unit Metric Value
+    ------------------------------- ----------- ------------
+    Block Limit SM                        block           16
+    Block Limit Registers                 block           16
+    Block Limit Shared Mem                block            8
+    Block Limit Warps                     block            6
+    Theoretical Active Warps per SM        warp           48
+    Theoretical Occupancy                     %          100
+    Achieved Occupancy                        %        34,15
+    Achieved Active Warps Per SM           warp        16,39
+    ------------------------------- ----------- ------------
+
+    OPT   Estimated Speedup: 65.85%                                                                                     
+          This kernel's theoretical occupancy is not impacted by any block limit. The difference between calculated     
+          theoretical (100.0%) and measured achieved occupancy (34.1%) can be the result of warp scheduling overheads   
+          or workload imbalances during the kernel execution. Load imbalances can occur between warps within a block    
+          as well as across blocks of the same kernel. See the CUDA Best Practices Guide                                
+          (https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#occupancy) for more details on           
+          optimizing occupancy.                                                                                         
+
