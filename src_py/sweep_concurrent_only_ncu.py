@@ -7,8 +7,8 @@ import os
 # =========================== Parameters ==================================
 # Tune these to match your experiments
 
-ITERS = 150000000       # inner loop in CUDA-core kernel
-TENSOR_ITERS = 10000000 # inner loop in WMMA kernel (inside wmma_gemm_kernel)
+ITERS = 150000       # inner loop in CUDA-core kernel
+TENSOR_ITERS = 1000 # inner loop in WMMA kernel (inside wmma_gemm_kernel)
 REPEATS = 3             # outer repeat in timed region (passed to concurrent_only)
 
 # Vector sizes (CUDA-core workload)

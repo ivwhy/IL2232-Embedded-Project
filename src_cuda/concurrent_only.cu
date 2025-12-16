@@ -89,7 +89,7 @@ bool file_exists(const char* filename) {
 void append_csv_row(int Nvec, int iters, int tensor_iters,
                     int M, int N, int K, int repeats,
                     float conc_ms) {
-    const char* filename = "results_concurrent_only.csv";
+    const char* filename = "cu_results_concurrent_only.csv";
 
     bool exists = file_exists(filename);
 

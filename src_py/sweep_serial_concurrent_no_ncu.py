@@ -1,6 +1,7 @@
 import subprocess
 import re
 import csv
+import os
 
 # =========================== Parameters 2 ==================================
 ITERS = 1500000         # inner loop in CUDA-core kernel
@@ -57,20 +58,31 @@ NVECS = [
 
 
 M_SIZES = [
-    16,
-    32,
-    64,
+    #16,
+    #32,
+    #64,
     128,
     256,
     512,
     1024,
     2048,
+    4096,
+    8192,
+    16384,
+    32768,
+    65536
 ]
+
+# from src_py/, go up one level into src_cuda
+BIN_DIR = "../src_cuda/bin_cuda"
+SRC = "../src_cuda/serial_concurrent.cu"
+BINARY = os.path.join(BIN_DIR, "serial_concurrent")
+
 
 # ./concurrent_cuda_tensor Nvec iters M N K tensor_iters repeats
 def run_case(Nvec, iters, M, N, K, tensor_iters, repeats):
     cmd = [
-        "./concurrent_cuda_tensor",
+        BINARY,
         str(Nvec),
         str(iters),
         str(M),
@@ -108,7 +120,35 @@ def run_case(Nvec, iters, M, N, K, tensor_iters, repeats):
     return cuda_ms, tensor_ms, conc_ms, out
 
 
+def ensure_binary():
+    """
+    Ensure bin_cuda/cuda_core_only exists.
+    If not, build it with:
+
+      nvcc -O3 -arch=sm_80 concurrent_only.cu -o bin_cuda/concurrent_only
+    """
+    os.makedirs(BIN_DIR, exist_ok=True)
+
+    if os.path.exists(BINARY):
+        return  # already built
+
+    print(f"[INFO] Building {BINARY} from {SRC} ...")
+    cmd = [
+        "nvcc",
+        "-O3",
+        "-arch=sm_80",
+        SRC,
+        "-o",
+        BINARY,
+    ]
+    result = subprocess.run(cmd, text=True)
+    if result.returncode != 0:
+        raise RuntimeError(f"nvcc build failed with code {result.returncode}")
+    print(f"[INFO] Build complete: {BINARY}")
+
+
 def main():
+    ensure_binary()
     # -------- Pretty Header for Terminal --------
     print("\n================ CUDA + Tensor Sweep ================\n")
     print(

@@ -4,12 +4,12 @@ import re
 import csv
 import os
 
-BIN_DIR = "bin_cuda"
-SRC = "cuda_core_only.cu"
-BINARY = os.path.join(BIN_DIR, "cuda_core_only")
+BIN_DIR = "../src_cuda/bin_cuda"
+SRC = "../src_cuda/cuda_core_only.cu"
+BINARY = os.path.join(BIN_DIR, "cuda_core_only.cu")
 
 # =========================== Parameters ==================================
-ITERS = 1500000
+ITERS = 150000
 REPEATS = 1
 
 NVECS = [
@@ -28,8 +28,6 @@ NVECS = [
     1 << 19, # 524288
     1 << 20 # 1048576
 ]
-
-BINARY = "./cuda_core_only"
 
 USE_NCU_DEFAULT = True
 
@@ -181,6 +179,8 @@ def main():
         f"{'N':>10} | {'iters':>12} | {'rep':>4} | {'time (ms)':>12} | {'avg time (ms)':>15}"
     )
     print("-" * 80)
+
+    #out_csv = "../results_csv/results_cuda_core.csv"
 
     out_csv = "results_cuda_core.csv"
 

@@ -5,14 +5,13 @@ import os
 
 NCU_LOG_DIR = "ncu_logs_serial_concurrent"
 
-BIN_DIR = "bin_concurrent"
-SRC = "concurrent_only.cu"
+BIN_DIR = "../src_cuda/bin_cuda"
+SRC = "../src_cuda/serial_concurrent.cu"
 BINARY = os.path.join(BIN_DIR, "concurrent_only")
 
-
 # =========================== Parameters 2 ==================================
-ITERS = 150000000         # inner loop in CUDA-core kernel
-TENSOR_ITERS = 10000000   # inner loop in WMMA kernel (inside wmma_gemm_kernel)
+ITERS = 1500000         # inner loop in CUDA-core kernel
+TENSOR_ITERS = 1000   # inner loop in WMMA kernel (inside wmma_gemm_kernel)
 REPEATS = 3               # outer repeat in timed region
 
 NVECS = [
@@ -124,7 +123,7 @@ def ensure_binary():
 
 def run_case(Nvec, iters, M, N, K, tensor_iters, repeats, use_ncu=True):
     app_cmd = [
-        ". ../src_cuda/bin_cuda/sweep_serial_concurrent",
+        BINARY,
         str(Nvec),
         str(iters),
         str(M),
