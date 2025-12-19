@@ -9,34 +9,46 @@ import os
 
 ITERS = 150000       # inner loop in CUDA-core kernel
 TENSOR_ITERS = 1000 # inner loop in WMMA kernel (inside wmma_gemm_kernel)
-REPEATS = 3             # outer repeat in timed region (passed to concurrent_only)
+REPEATS = 4             # outer repeat in timed region (passed to concurrent_only)
 
 # Vector sizes (CUDA-core workload)
 NVECS = [
-    1 << 8,   # 256
-    1 << 9,   # 512
-    1 << 10,  # 1024
-    1 << 12,  # 4096
-    1 << 13,  # 8192
-    1 << 14,  # 16384
-    1 << 15,  # 32768
-    1 << 16,  # 65536
-    1 << 17,  # 131072
-    1 << 18,  # 262144
+    # 1 << 8,   # 256
+    # 1 << 9,   # 512
+    # 1 << 10,  # 1024
+    # 1 << 12,  # 4096
+    1 << 13,  # 8192   thrpt 23% ish 
+    14500,    # throughput 40% ish
+    # 1 << 14,  # 16384
+    # 1 << 15,  # 32768   throughput 60% ish
+    # 1 << 16,  # 65536
+    # 1 << 17,  # 131072
+    1 << 18,  # 262144   throughput 80% ish
 ]
 
 # Matrix sizes (Tensor Core workload): M = N = K
 M_SIZES = [
+    128,
+    # 224,
+    240,
     256,
     512,
-    1024,
+    # 1024,
     2048,
 ]
 
 # from src_py/, go up one level into src_cuda
-BIN_DIR = "../src_cuda/bin_cuda"
-SRC = "../src_cuda/concurrent_only.cu"
+# BIN_DIR = "../src_cuda/bin_cuda"
+# SRC = "../src_cuda/concurrent_only.cu"
+# BINARY = os.path.join(BIN_DIR, "concurrent_only")
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
+
+SRC = os.path.join(REPO_ROOT, "src_cuda", "concurrent_only.cu")
+BIN_DIR = os.path.join(REPO_ROOT, "src_cuda", "bin_cuda")
 BINARY = os.path.join(BIN_DIR, "concurrent_only")
+
 
 # Run under Nsight Compute by default
 USE_NCU_DEFAULT = True
@@ -230,7 +242,12 @@ def main():
     print("-" * 100)
 
     # --------------- CSV Output (Python-side) -----------------
-    out_csv = "../results_csv/results_concurrent_only_ncu.csv"
+
+    out_csv = os.path.join(REPO_ROOT, "results_csv", "results_concurrent_only_ncu.csv")
+    os.makedirs(os.path.dirname(out_csv), exist_ok=True)
+
+    # out_csv = "../results_csv/results_concurrent_only_ncu.csv"
+
     with open(out_csv, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow([

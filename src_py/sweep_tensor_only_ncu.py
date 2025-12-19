@@ -8,17 +8,40 @@ import os
 
 # Matrix sizes to test: M = N = K
 M_SIZES = [
+    # 16,
+    # 32,
+    # 64,
+    128,
+    # 144,
+    # 176,
+    # 192,
+    # 208,
+    # 224,
+    240,
+    256,
     512,
-    1024,
+    # 1024,
     2048,
-    4096,
+    # 4096,
+    # 8192,
+    # 16384,
+    # 32768,
+    # 65536,
+    # 131072
 ]
 
 REPEATS = 1
 
-BIN_DIR = "src_cuda"
-SRC = "./tensor_core_only"
-BINARY = os.path.join(BIN_DIR, "tensor_core_only")
+# BIN_DIR = "../src_cuda/bin_cuda"
+# SRC = "../src_cuda/tensor_core_only.cu"
+# BINARY = os.path.join(BIN_DIR, "tensor_core_only")
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
+
+SRC = os.path.join(REPO_ROOT, "src_cuda", "tensor_core_only.cu")
+BIN_DIR = os.path.join(REPO_ROOT, "src_cuda", "bin_cuda")
+BINARY = os.path.join(BIN_DIR, "tensor_core_only.cu")
 
 
 # NEW: per-kernel repeat count, matches tensor_iters in your CUDA code
@@ -28,7 +51,7 @@ TENSOR_ITERS = 1000  # <-- tweak this as you like
 USE_NCU_DEFAULT = True
 
 # Folder to store Nsight Compute logs
-NCU_LOG_DIR = "ncu_log_tensor_only"
+NCU_LOG_DIR = "../ncu_logs_tensor_only"
 
 
 # =================== Helper: trim ncu logs per kernel ======================

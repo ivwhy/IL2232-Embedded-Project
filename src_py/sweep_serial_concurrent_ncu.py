@@ -3,11 +3,18 @@ import re
 import csv
 import os
 
-NCU_LOG_DIR = "ncu_logs_serial_concurrent"
+NCU_LOG_DIR = "../ncu_logs_serial_concurrent"
 
-BIN_DIR = "../src_cuda/bin_cuda"
-SRC = "../src_cuda/serial_concurrent.cu"
-BINARY = os.path.join(BIN_DIR, "concurrent_only")
+# BIN_DIR = "../src_cuda/bin_cuda"
+# SRC = "../src_cuda/serial_concurrent.cu"
+# BINARY = os.path.join(BIN_DIR, "concurrent_only")
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
+
+SRC = os.path.join(REPO_ROOT, "src_cuda", "serial_concurrent.cu")
+BIN_DIR = os.path.join(REPO_ROOT, "src_cuda", "bin_cuda")
+BINARY = os.path.join(BIN_DIR, "serial_concurrent")
 
 # =========================== Parameters 2 ==================================
 ITERS = 1500000         # inner loop in CUDA-core kernel
@@ -221,7 +228,11 @@ def main():
     print("-" * 140)
 
     # --------------- CSV Output (Python-side) -----------------
-    with open("results.csv", "w", newline="") as f:
+
+    out_csv = os.path.join(REPO_ROOT, "results_csv", "results.csv")
+    os.makedirs(os.path.dirname(out_csv), exist_ok=True)
+
+    with open(out_csv, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow([
             "Nvec", "iters", "tensor_iters", "M", "N", "K", "Repeats",

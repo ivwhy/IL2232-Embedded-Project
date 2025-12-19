@@ -1,0 +1,63 @@
+==PROF== Connected to process 1542077 (/home/ivy/custom_workloads/git_repo/src_cuda/bin_cuda/tensor_core_only)
+==PROF== Profiling "wmma_gemm_kernel" - 0: 0%....50%....100% - 9 passes
+==PROF== Profiling "wmma_gemm_kernel" - 1: 0%....50%....100% - 9 passes
+Tensor Core WMMA GEMM: 512x512x512 tensor_iters=1000 time=303.460 ms
+Sample C[mid,mid]=1111416.625000
+==PROF== Disconnected from process 1542077
+[1542077] tensor_core_only@127.0.0.1
+  wmma_gemm_kernel(const __half *, const __half *, float *, int, int, int, int) (32, 32, 1)x(32, 1, 1), Context 1, Stream 7, Device 0, CC 8.6
+    Section: GPU Speed Of Light Throughput
+    ----------------------- ------------- -------------
+    Metric Name               Metric Unit  Metric Value
+    ----------------------- ------------- -------------
+    DRAM Frequency          cycle/nsecond          9,24
+    SM Frequency            cycle/nsecond          1,36
+    Elapsed Cycles                  cycle    31 108 200
+    Memory Throughput                   %         84,34
+    DRAM Throughput                     %          0,01
+    Duration                      msecond         22,80
+    L1/TEX Cache Throughput             %         89,60
+    L2 Cache Throughput                 %         29,95
+    SM Active Cycles                cycle 29 283 383,04
+    Compute (SM) Throughput             %         21,15
+    ----------------------- ------------- -------------
+
+    INF   The kernel is utilizing greater than 80.0% of the available compute or memory performance of the device. To   
+          further improve performance, work will likely need to be shifted from the most utilized to another unit.      
+          Start by analyzing L1 in the Memory Workload Analysis section.                                                
+
+    Section: Launch Statistics
+    -------------------------------- --------------- ---------------
+    Metric Name                          Metric Unit    Metric Value
+    -------------------------------- --------------- ---------------
+    Block Size                                                    32
+    Function Cache Configuration                     CachePreferNone
+    Grid Size                                                  1 024
+    Registers Per Thread             register/thread              32
+    Shared Memory Configuration Size           Kbyte           16,38
+    Driver Shared Memory Per Block       Kbyte/block            1,02
+    Dynamic Shared Memory Per Block       byte/block               0
+    Static Shared Memory Per Block        byte/block               0
+    Threads                                   thread          32 768
+    Waves Per SM                                                0,80
+    -------------------------------- --------------- ---------------
+
+    Section: Occupancy
+    ------------------------------- ----------- ------------
+    Metric Name                     Metric Unit Metric Value
+    ------------------------------- ----------- ------------
+    Block Limit SM                        block           16
+    Block Limit Registers                 block           64
+    Block Limit Shared Mem                block           16
+    Block Limit Warps                     block           48
+    Theoretical Active Warps per SM        warp           16
+    Theoretical Occupancy                     %        33,33
+    Achieved Occupancy                        %        24,14
+    Achieved Active Warps Per SM           warp        11,59
+    ------------------------------- ----------- ------------
+
+    OPT   This kernel's theoretical occupancy (33.3%) is limited by the number of blocks that can fit on the SM. This   
+          kernel's theoretical occupancy (33.3%) is limited by the required amount of shared memory. See the CUDA Best  
+          Practices Guide (https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#occupancy) for more      
+          details on optimizing occupancy.                                                                              
+

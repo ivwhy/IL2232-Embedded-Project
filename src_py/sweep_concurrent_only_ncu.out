@@ -1,0 +1,39 @@
+nohup: ignoring input
+
+================ CUDA + Tensor Concurrent-Only Sweep (ncu) ================
+
+      Nvec |     iters |    t_iters |     M |     N |     K | Repeats |  Concurrent (ms)
+----------------------------------------------------------------------------------------------------
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N8192_M128.txt
+      8192 |    150000 |       1000 |   128 |   128 |   128 |       4 |          229.598
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N8192_M240.txt
+      8192 |    150000 |       1000 |   240 |   240 |   240 |       4 |          257.706
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N8192_M256.txt
+      8192 |    150000 |       1000 |   256 |   256 |   256 |       4 |          243.977
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N8192_M512.txt
+      8192 |    150000 |       1000 |   512 |   512 |   512 |       4 |          415.219
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N8192_M2048.txt
+      8192 |    150000 |       1000 |  2048 |  2048 |  2048 |       4 |        12590.100
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N14500_M128.txt
+     14500 |    150000 |       1000 |   128 |   128 |   128 |       4 |          224.584
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N14500_M240.txt
+     14500 |    150000 |       1000 |   240 |   240 |   240 |       4 |          251.051
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N14500_M256.txt
+     14500 |    150000 |       1000 |   256 |   256 |   256 |       4 |          241.818
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N14500_M512.txt
+     14500 |    150000 |       1000 |   512 |   512 |   512 |       4 |          416.866
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N14500_M2048.txt
+     14500 |    150000 |       1000 |  2048 |  2048 |  2048 |       4 |        12570.979
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N262144_M128.txt
+    262144 |    150000 |       1000 |   128 |   128 |   128 |       4 |          328.203
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N262144_M240.txt
+    262144 |    150000 |       1000 |   240 |   240 |   240 |       4 |          364.031
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N262144_M256.txt
+    262144 |    150000 |       1000 |   256 |   256 |   256 |       4 |          353.117
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N262144_M512.txt
+    262144 |    150000 |       1000 |   512 |   512 |   512 |       4 |          519.533
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N262144_M2048.txt
+    262144 |    150000 |       1000 |  2048 |  2048 |  2048 |       4 |        12684.736
+
+Results saved to: ../results_csv/results_concurrent_only_ncu.csv
+Nsight logs saved to: ../ncu_logs_concurrent_only/

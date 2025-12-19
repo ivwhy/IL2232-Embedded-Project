@@ -1,0 +1,70 @@
+==PROF== Connected to process 898351 (/home/ivy/custom_workloads/git_repo/src_cuda/bin_cuda/tensor_core_only)
+==PROF== Profiling "wmma_gemm_kernel" - 0: 0%....50%....100% - 9 passes
+==PROF== Profiling "wmma_gemm_kernel" - 1: 0%....50%....100% - 9 passes
+Tensor Core WMMA GEMM: 192x192x192 tensor_iters=1000 time=124.145 ms
+Sample C[mid,mid]=418235.343750
+==PROF== Disconnected from process 898351
+[898351] tensor_core_only@127.0.0.1
+  wmma_gemm_kernel(const __half *, const __half *, float *, int, int, int, int) (12, 12, 1)x(32, 1, 1), Context 1, Stream 7, Device 0, CC 8.6
+    Section: GPU Speed Of Light Throughput
+    ----------------------- ------------- ------------
+    Metric Name               Metric Unit Metric Value
+    ----------------------- ------------- ------------
+    DRAM Frequency          cycle/nsecond         9,24
+    SM Frequency            cycle/nsecond         1,36
+    Elapsed Cycles                  cycle    3 986 142
+    Memory Throughput                   %        34,74
+    DRAM Throughput                     %         0,01
+    Duration                      msecond         2,92
+    L1/TEX Cache Throughput             %        48,47
+    L2 Cache Throughput                 %         0,11
+    SM Active Cycles                cycle 2 857 236,69
+    Compute (SM) Throughput             %         8,76
+    ----------------------- ------------- ------------
+
+    OPT   This kernel grid is too small to fill the available resources on this device, resulting in only 0.1 full      
+          waves across all SMs. Look at Launch Statistics for more details.                                             
+
+    Section: Launch Statistics
+    -------------------------------- --------------- ---------------
+    Metric Name                          Metric Unit    Metric Value
+    -------------------------------- --------------- ---------------
+    Block Size                                                    32
+    Function Cache Configuration                     CachePreferNone
+    Grid Size                                                    144
+    Registers Per Thread             register/thread              32
+    Shared Memory Configuration Size           Kbyte           16,38
+    Driver Shared Memory Per Block       Kbyte/block            1,02
+    Dynamic Shared Memory Per Block       byte/block               0
+    Static Shared Memory Per Block        byte/block               0
+    Threads                                   thread           4 608
+    Waves Per SM                                                0,11
+    -------------------------------- --------------- ---------------
+
+    OPT   If you execute __syncthreads() to synchronize the threads of a block, it is recommended to have more than the 
+          achieved 1 blocks per multiprocessor. This way, blocks that aren't waiting for __syncthreads() can keep the   
+          hardware busy.                                                                                                
+
+    Section: Occupancy
+    ------------------------------- ----------- ------------
+    Metric Name                     Metric Unit Metric Value
+    ------------------------------- ----------- ------------
+    Block Limit SM                        block           16
+    Block Limit Registers                 block           64
+    Block Limit Shared Mem                block           16
+    Block Limit Warps                     block           48
+    Theoretical Active Warps per SM        warp           16
+    Theoretical Occupancy                     %        33,33
+    Achieved Occupancy                        %         3,77
+    Achieved Active Warps Per SM           warp         1,81
+    ------------------------------- ----------- ------------
+
+    OPT   Estimated Speedup: 88.7%                                                                                      
+          This kernel's theoretical occupancy (33.3%) is limited by the number of blocks that can fit on the SM. This   
+          kernel's theoretical occupancy (33.3%) is limited by the required amount of shared memory. The difference     
+          between calculated theoretical (33.3%) and measured achieved occupancy (3.8%) can be the result of warp       
+          scheduling overheads or workload imbalances during the kernel execution. Load imbalances can occur between    
+          warps within a block as well as across blocks of the same kernel. See the CUDA Best Practices Guide           
+          (https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#occupancy) for more details on           
+          optimizing occupancy.                                                                                         
+

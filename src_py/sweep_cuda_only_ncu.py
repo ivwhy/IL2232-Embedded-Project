@@ -4,35 +4,40 @@ import re
 import csv
 import os
 
-BIN_DIR = "../src_cuda/bin_cuda"
-SRC = "../src_cuda/cuda_core_only.cu"
-BINARY = os.path.join(BIN_DIR, "cuda_core_only.cu")
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
+
+SRC = os.path.join(REPO_ROOT, "src_cuda", "cuda_core_only.cu")
+BIN_DIR = os.path.join(REPO_ROOT, "src_cuda", "bin_cuda")
+BINARY = os.path.join(BIN_DIR, "cuda_core_only")
+
+
+# BIN_DIR = "../src_cuda/bin_cuda"
+# SRC = "../src_cuda/cuda_core_only.cu"
+# BINARY = os.path.join(BIN_DIR, "cuda_core_only.cu")
 
 # =========================== Parameters ==================================
 ITERS = 150000
 REPEATS = 1
 
 NVECS = [
-    # 1 << 8, #256
-    # 1 << 9, # 512
-    # 1 << 10, #1024
-    # 1 << 12, #4096
-    # 1 << 13, #8192      INTRESSANT!!!!
-    # 1 << 14, #16384
-    1 << 15, #32768
-    40000,
-    50000,
-    1 << 16, # 65536
-    1 << 17, # 131072
-    1 << 18, #262144
-    1 << 19, # 524288
-    1 << 20 # 1048576
+    # 1 << 8,   # 256
+    # 1 << 9,   # 512
+    # 1 << 10,  # 1024
+    # 1 << 12,  # 4096
+    1 << 13,  # 8192   thrpt 23% ish 
+    14500,    # throughput 40% ish
+    # 1 << 14,  # 16384
+    1 << 15,  # 32768   throughput 60% ish
+    # 1 << 16,  # 65536
+    # 1 << 17,  # 131072
+    1 << 18,  # 262144   throughput 80% ish
 ]
 
 USE_NCU_DEFAULT = True
 
 # NEW: Folder to store Nsight Compute logs
-NCU_LOG_DIR = "ncu_logs_cuda_only"
+NCU_LOG_DIR = "../ncu_logs_cuda_only"
 
 
 # =================== Helper: trim ncu logs per kernel ======================

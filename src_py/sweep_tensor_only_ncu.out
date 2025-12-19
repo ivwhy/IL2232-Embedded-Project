@@ -1,0 +1,15 @@
+nohup: ignoring input
+
+================ Tensor Core WMMA Sweep ================
+
+       M |        N |        K |     t_it |  rep |    time (ms) |   avg time (ms)
+------------------------------------------------------------------------------------------
+[INFO] Trimmed Nsight log: ../ncu_log_tensor_only/tensor_M176_it1000.txt
+     176 |      176 |      176 |     1000 |    0 |      107.687 |         107.687
+[INFO] Trimmed Nsight log: ../ncu_log_tensor_only/tensor_M208_it1000.txt
+     208 |      208 |      208 |     1000 |    0 |      122.532 |         122.532
+[INFO] Trimmed Nsight log: ../ncu_log_tensor_only/tensor_M240_it1000.txt
+     240 |      240 |      240 |     1000 |    0 |      142.376 |         142.376
+
+Results saved to results_tensor_only.csv
+Nsight logs saved to: ../ncu_log_tensor_only/

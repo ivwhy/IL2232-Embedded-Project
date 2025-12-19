@@ -1,0 +1,149 @@
+==PROF== Connected to process 993015 (/home/ivy/custom_workloads/git_repo/src_cuda/bin_cuda/concurrent_only)
+==PROF== Profiling "cuda_core_fma_kernel" - 0: 0%....50%....100% - 9 passes
+==PROF== Profiling "wmma_gemm_kernel" - 1: 0%....50%....100% - 9 passes
+==PROF== Profiling "cuda_core_fma_kernel" - 2: 0%....50%....100% - 9 passes
+==PROF== Profiling "wmma_gemm_kernel" - 3: 0%....50%....100% - 9 passes
+==PROF== Profiling "cuda_core_fma_kernel" - 4: 0%....50%....100% - 9 passes
+==PROF== Profiling "wmma_gemm_kernel" - 5: 0%....50%....100% - 9 passes
+==PROF== Profiling "cuda_core_fma_kernel" - 6: 0%....50%....100% - 9 passes
+==PROF== Profiling "wmma_gemm_kernel" - 7: 0%....50%....100% - 9 passes
+==PROF== Profiling "cuda_core_fma_kernel" - 8: 0%....50%....100% - 9 passes
+==PROF== Profiling "wmma_gemm_kernel" - 9: 0%....50%....100% - 9 passes
+==PROF== Disconnected from process 993015
+Concurrent-only run:
+  Nvec=131072, iters=150000
+  M=256, N=256, K=256, tensor_iters=1000
+  repeats=4
+Concurrent total time (avg)=299.946 ms (repeats=4)
+[993015] concurrent_only@127.0.0.1
+  cuda_core_fma_kernel(const float *, const float *, float *, int, int) (512, 1, 1)x(256, 1, 1), Context 1, Stream 13, Device 0, CC 8.6
+    Section: GPU Speed Of Light Throughput
+    ----------------------- ------------- ------------
+    Metric Name               Metric Unit Metric Value
+    ----------------------- ------------- ------------
+    DRAM Frequency          cycle/nsecond         9,26
+    SM Frequency            cycle/nsecond         1,37
+    Elapsed Cycles                  cycle   10 041 593
+    Memory Throughput                   %         0,02
+    DRAM Throughput                     %         0,02
+    Duration                      msecond         7,34
+    L1/TEX Cache Throughput             %         0,01
+    L2 Cache Throughput                 %         0,02
+    SM Active Cycles                cycle 9 093 520,36
+    Compute (SM) Throughput             %        71,71
+    ----------------------- ------------- ------------
+
+    OPT   Compute is more heavily utilized than Memory: Look at the Compute Workload Analysis section to see what the   
+          compute pipelines are spending their time doing. Also, consider whether any computation is redundant and      
+          could be reduced or moved to look-up tables.                                                                  
+
+    Section: Launch Statistics
+    -------------------------------- --------------- ---------------
+    Metric Name                          Metric Unit    Metric Value
+    -------------------------------- --------------- ---------------
+    Block Size                                                   256
+    Function Cache Configuration                     CachePreferNone
+    Grid Size                                                    512
+    Registers Per Thread             register/thread              16
+    Shared Memory Configuration Size           Kbyte            8,19
+    Driver Shared Memory Per Block       Kbyte/block            1,02
+    Dynamic Shared Memory Per Block       byte/block               0
+    Static Shared Memory Per Block        byte/block               0
+    Threads                                   thread         131 072
+    Waves Per SM                                                1,07
+    -------------------------------- --------------- ---------------
+
+    OPT   Estimated Speedup: 50%                                                                                        
+          A wave of thread blocks is defined as the maximum number of blocks that can be executed in parallel on the    
+          target GPU. The number of blocks in a wave depends on the number of multiprocessors and the theoretical       
+          occupancy of the kernel. This kernel launch results in 1 full waves and a partial wave of 31 thread blocks.   
+          Under the assumption of a uniform execution duration of all thread blocks, the partial wave may account for   
+          up to 50.0% of the total kernel runtime with a lower occupancy of 33.6%. Try launching a grid with no         
+          partial wave. The overall impact of this tail effect also lessens with the number of full waves executed for  
+          a grid. See the Hardware Model                                                                                
+          (https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#metrics-hw-model) description for more      
+          details on launch configurations.                                                                             
+
+    Section: Occupancy
+    ------------------------------- ----------- ------------
+    Metric Name                     Metric Unit Metric Value
+    ------------------------------- ----------- ------------
+    Block Limit SM                        block           16
+    Block Limit Registers                 block           16
+    Block Limit Shared Mem                block            8
+    Block Limit Warps                     block            6
+    Theoretical Active Warps per SM        warp           48
+    Theoretical Occupancy                     %          100
+    Achieved Occupancy                        %        66,39
+    Achieved Active Warps Per SM           warp        31,87
+    ------------------------------- ----------- ------------
+
+    OPT   Estimated Speedup: 33.61%                                                                                     
+          This kernel's theoretical occupancy is not impacted by any block limit. The difference between calculated     
+          theoretical (100.0%) and measured achieved occupancy (66.4%) can be the result of warp scheduling overheads   
+          or workload imbalances during the kernel execution. Load imbalances can occur between warps within a block    
+          as well as across blocks of the same kernel. See the CUDA Best Practices Guide                                
+          (https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#occupancy) for more details on           
+          optimizing occupancy.                                                                                         
+
+  wmma_gemm_kernel(const __half *, const __half *, float *, int, int, int, int) (16, 16, 1)x(32, 1, 1), Context 1, Stream 14, Device 0, CC 8.6
+    Section: GPU Speed Of Light Throughput
+    ----------------------- ------------- ------------
+    Metric Name               Metric Unit Metric Value
+    ----------------------- ------------- ------------
+    DRAM Frequency          cycle/nsecond         9,31
+    SM Frequency            cycle/nsecond         1,37
+    Elapsed Cycles                  cycle    5 067 571
+    Memory Throughput                   %        64,76
+    DRAM Throughput                     %         0,01
+    Duration                      msecond         3,69
+    L1/TEX Cache Throughput             %        78,56
+    L2 Cache Throughput                 %         0,06
+    SM Active Cycles                cycle 4 177 395,99
+    Compute (SM) Throughput             %        16,29
+    ----------------------- ------------- ------------
+
+    OPT   Memory is more heavily utilized than Compute: Look at the Memory Workload Analysis section to identify the L1 
+          bottleneck. Check memory replay (coalescing) metrics to make sure you're efficiently utilizing the bytes      
+          transferred. Also consider whether it is possible to do more work per memory access (kernel fusion) or        
+          whether there are values you can (re)compute.                                                                 
+
+    Section: Launch Statistics
+    -------------------------------- --------------- ---------------
+    Metric Name                          Metric Unit    Metric Value
+    -------------------------------- --------------- ---------------
+    Block Size                                                    32
+    Function Cache Configuration                     CachePreferNone
+    Grid Size                                                    256
+    Registers Per Thread             register/thread              32
+    Shared Memory Configuration Size           Kbyte           16,38
+    Driver Shared Memory Per Block       Kbyte/block            1,02
+    Dynamic Shared Memory Per Block       byte/block               0
+    Static Shared Memory Per Block        byte/block               0
+    Threads                                   thread           8 192
+    Waves Per SM                                                0,20
+    -------------------------------- --------------- ---------------
+
+    Section: Occupancy
+    ------------------------------- ----------- ------------
+    Metric Name                     Metric Unit Metric Value
+    ------------------------------- ----------- ------------
+    Block Limit SM                        block           16
+    Block Limit Registers                 block           64
+    Block Limit Shared Mem                block           16
+    Block Limit Warps                     block           48
+    Theoretical Active Warps per SM        warp           16
+    Theoretical Occupancy                     %        33,33
+    Achieved Occupancy                        %         6,72
+    Achieved Active Warps Per SM           warp         3,22
+    ------------------------------- ----------- ------------
+
+    OPT   Estimated Speedup: 79.84%                                                                                     
+          This kernel's theoretical occupancy (33.3%) is limited by the number of blocks that can fit on the SM. This   
+          kernel's theoretical occupancy (33.3%) is limited by the required amount of shared memory. The difference     
+          between calculated theoretical (33.3%) and measured achieved occupancy (6.7%) can be the result of warp       
+          scheduling overheads or workload imbalances during the kernel execution. Load imbalances can occur between    
+          warps within a block as well as across blocks of the same kernel. See the CUDA Best Practices Guide           
+          (https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#occupancy) for more details on           
+          optimizing occupancy.                                                                                         
+

@@ -1,0 +1,66 @@
+==PROF== Connected to process 968019 (/home/ivy/custom_workloads/git_repo/src_cuda/bin_cuda/tensor_core_only)
+==PROF== Profiling "wmma_gemm_kernel" - 0: 0%....50%....100% - 9 passes
+==PROF== Profiling "wmma_gemm_kernel" - 1: 0%....50%....100% - 9 passes
+Tensor Core WMMA GEMM: 208x208x208 tensor_iters=1000 time=122.532 ms
+Sample C[mid,mid]=453141.843750
+==PROF== Disconnected from process 968019
+[968019] tensor_core_only@127.0.0.1
+  wmma_gemm_kernel(const __half *, const __half *, float *, int, int, int, int) (13, 13, 1)x(32, 1, 1), Context 1, Stream 7, Device 0, CC 8.6
+    Section: GPU Speed Of Light Throughput
+    ----------------------- ------------- ------------
+    Metric Name               Metric Unit Metric Value
+    ----------------------- ------------- ------------
+    DRAM Frequency          cycle/nsecond         9,24
+    SM Frequency            cycle/nsecond         1,36
+    Elapsed Cycles                  cycle    3 795 136
+    Memory Throughput                   %        12,02
+    DRAM Throughput                     %         0,01
+    Duration                      msecond         2,78
+    L1/TEX Cache Throughput             %        20,38
+    L2 Cache Throughput                 %         0,30
+    SM Active Cycles                cycle 2 237 597,11
+    Compute (SM) Throughput             %        11,80
+    ----------------------- ------------- ------------
+
+    OPT   This kernel grid is too small to fill the available resources on this device, resulting in only 0.1 full      
+          waves across all SMs. Look at Launch Statistics for more details.                                             
+
+    Section: Launch Statistics
+    -------------------------------- --------------- ---------------
+    Metric Name                          Metric Unit    Metric Value
+    -------------------------------- --------------- ---------------
+    Block Size                                                    32
+    Function Cache Configuration                     CachePreferNone
+    Grid Size                                                    169
+    Registers Per Thread             register/thread              32
+    Shared Memory Configuration Size           Kbyte           16,38
+    Driver Shared Memory Per Block       Kbyte/block            1,02
+    Dynamic Shared Memory Per Block       byte/block               0
+    Static Shared Memory Per Block        byte/block               0
+    Threads                                   thread           5 408
+    Waves Per SM                                                0,13
+    -------------------------------- --------------- ---------------
+
+    Section: Occupancy
+    ------------------------------- ----------- ------------
+    Metric Name                     Metric Unit Metric Value
+    ------------------------------- ----------- ------------
+    Block Limit SM                        block           16
+    Block Limit Registers                 block           64
+    Block Limit Shared Mem                block           16
+    Block Limit Warps                     block           48
+    Theoretical Active Warps per SM        warp           16
+    Theoretical Occupancy                     %        33,33
+    Achieved Occupancy                        %         4,25
+    Achieved Active Warps Per SM           warp         2,04
+    ------------------------------- ----------- ------------
+
+    OPT   Estimated Speedup: 87.24%                                                                                     
+          This kernel's theoretical occupancy (33.3%) is limited by the number of blocks that can fit on the SM. This   
+          kernel's theoretical occupancy (33.3%) is limited by the required amount of shared memory. The difference     
+          between calculated theoretical (33.3%) and measured achieved occupancy (4.3%) can be the result of warp       
+          scheduling overheads or workload imbalances during the kernel execution. Load imbalances can occur between    
+          warps within a block as well as across blocks of the same kernel. See the CUDA Best Practices Guide           
+          (https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#occupancy) for more details on           
+          optimizing occupancy.                                                                                         
+

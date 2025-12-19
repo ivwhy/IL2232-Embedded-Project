@@ -1,4 +1,4 @@
-==PROF== Connected to process 1595356 (/home/ivy/custom_workloads/git_repo/src_cuda/bin_cuda/concurrent_only)
+==PROF== Connected to process 1154269 (/home/ivy/custom_workloads/git_repo/src_cuda/bin_cuda/concurrent_only)
 ==PROF== Profiling "cuda_core_fma_kernel" - 0: 0%....50%....100% - 9 passes
 ==PROF== Profiling "wmma_gemm_kernel" - 1: 0%....50%....100% - 9 passes
 ==PROF== Profiling "cuda_core_fma_kernel" - 2: 0%....50%....100% - 9 passes
@@ -7,13 +7,15 @@
 ==PROF== Profiling "wmma_gemm_kernel" - 5: 0%....50%....100% - 9 passes
 ==PROF== Profiling "cuda_core_fma_kernel" - 6: 0%....50%....100% - 9 passes
 ==PROF== Profiling "wmma_gemm_kernel" - 7: 0%....50%....100% - 9 passes
-==PROF== Disconnected from process 1595356
+==PROF== Profiling "cuda_core_fma_kernel" - 8: 0%....50%....100% - 9 passes
+==PROF== Profiling "wmma_gemm_kernel" - 9: 0%....50%....100% - 9 passes
+==PROF== Disconnected from process 1154269
 Concurrent-only run:
   Nvec=8192, iters=150000
   M=512, N=512, K=512, tensor_iters=1000
-  repeats=3
-Concurrent total time (avg)=520.175 ms (repeats=3)
-[1595356] concurrent_only@127.0.0.1
+  repeats=4
+Concurrent total time (avg)=415.219 ms (repeats=4)
+[1154269] concurrent_only@127.0.0.1
   cuda_core_fma_kernel(const float *, const float *, float *, int, int) (32, 1, 1)x(256, 1, 1), Context 1, Stream 13, Device 0, CC 8.6
     Section: GPU Speed Of Light Throughput
     ----------------------- ------------- ------------
@@ -21,13 +23,13 @@ Concurrent total time (avg)=520.175 ms (repeats=3)
     ----------------------- ------------- ------------
     DRAM Frequency          cycle/nsecond         9,24
     SM Frequency            cycle/nsecond         1,36
-    Elapsed Cycles                  cycle    1 953 273
-    Memory Throughput                   %         0,01
+    Elapsed Cycles                  cycle    1 953 251
+    Memory Throughput                   %         0,02
     DRAM Throughput                     %         0,01
     Duration                      msecond         1,43
     L1/TEX Cache Throughput             %         0,00
-    L2 Cache Throughput                 %         0,01
-    SM Active Cycles                cycle   745 029,90
+    L2 Cache Throughput                 %         0,02
+    SM Active Cycles                cycle   741 085,75
     Compute (SM) Throughput             %        23,04
     ----------------------- ------------- ------------
 
@@ -68,11 +70,11 @@ Concurrent total time (avg)=520.175 ms (repeats=3)
     Block Limit Warps                     block            6
     Theoretical Active Warps per SM        warp           48
     Theoretical Occupancy                     %          100
-    Achieved Occupancy                        %        15,71
-    Achieved Active Warps Per SM           warp         7,54
+    Achieved Occupancy                        %        15,74
+    Achieved Active Warps Per SM           warp         7,56
     ------------------------------- ----------- ------------
 
-    OPT   Estimated Speedup: 84.29%                                                                                     
+    OPT   Estimated Speedup: 84.26%                                                                                     
           This kernel's theoretical occupancy is not impacted by any block limit. The difference between calculated     
           theoretical (100.0%) and measured achieved occupancy (15.7%) can be the result of warp scheduling overheads   
           or workload imbalances during the kernel execution. Load imbalances can occur between warps within a block    
@@ -87,14 +89,14 @@ Concurrent total time (avg)=520.175 ms (repeats=3)
     ----------------------- ------------- -------------
     DRAM Frequency          cycle/nsecond          9,24
     SM Frequency            cycle/nsecond          1,36
-    Elapsed Cycles                  cycle    30 989 876
-    Memory Throughput                   %         84,66
+    Elapsed Cycles                  cycle    31 118 281
+    Memory Throughput                   %         84,32
     DRAM Throughput                     %          0,01
-    Duration                      msecond         22,72
-    L1/TEX Cache Throughput             %         89,59
-    L2 Cache Throughput                 %         30,04
-    SM Active Cycles                cycle 29 285 698,35
-    Compute (SM) Throughput             %         21,23
+    Duration                      msecond         22,80
+    L1/TEX Cache Throughput             %         89,51
+    L2 Cache Throughput                 %         29,91
+    SM Active Cycles                cycle 29 312 459,70
+    Compute (SM) Throughput             %         21,14
     ----------------------- ------------- -------------
 
     INF   The kernel is utilizing greater than 80.0% of the available compute or memory performance of the device. To   
@@ -127,8 +129,8 @@ Concurrent total time (avg)=520.175 ms (repeats=3)
     Block Limit Warps                     block           48
     Theoretical Active Warps per SM        warp           16
     Theoretical Occupancy                     %        33,33
-    Achieved Occupancy                        %        24,14
-    Achieved Active Warps Per SM           warp        11,59
+    Achieved Occupancy                        %        24,12
+    Achieved Active Warps Per SM           warp        11,58
     ------------------------------- ----------- ------------
 
     OPT   This kernel's theoretical occupancy (33.3%) is limited by the number of blocks that can fit on the SM. This   

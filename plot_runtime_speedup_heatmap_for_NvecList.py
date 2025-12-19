@@ -23,7 +23,9 @@ os.makedirs(INDIVDIR, exist_ok=True)
 # ============================================================
 #                LOAD CSV + PREPARE FIELDS
 # ============================================================
-df = pd.read_csv("results.csv")
+df = pd.read_csv("src_py/results.csv")
+
+# df = pd.read_csv("src_py/cu_results_concurrent_only.csv")
 
 if "serialized_ms" not in df.columns:
     df["serialized_ms"] = df["cuda_ms"] + df["tensor_ms"]

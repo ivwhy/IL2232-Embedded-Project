@@ -1,0 +1,280 @@
+nohup: ignoring input
+
+================ CUDA-Core Sweep ================
+
+         N |        iters |  rep |    time (ms) |   avg time (ms)
+--------------------------------------------------------------------------------
+[INFO] Trimmed Nsight log: ../ncu_logs_cuda_only/ncu_N8192_iters150000.txt
+      8192 |       150000 |    0 |      111.214 |         111.214
+[INFO] Trimmed Nsight log: ../ncu_logs_cuda_only/ncu_N14500_iters150000.txt
+     14500 |       150000 |    0 |      114.741 |         114.741
+[INFO] Trimmed Nsight log: ../ncu_logs_cuda_only/ncu_N32768_iters150000.txt
+     32768 |       150000 |    0 |      119.676 |         119.676
+[INFO] Trimmed Nsight log: ../ncu_logs_cuda_only/ncu_N262144_iters150000.txt
+    262144 |       150000 |    0 |      218.246 |         218.246
+
+Results saved to results_cuda_core.csv
+NcU logs saved to: ../ncu_logs_cuda_only/
+
+================ Tensor Core WMMA Sweep ================
+
+       M |        N |        K |     t_it |  rep |    time (ms) |   avg time (ms)
+------------------------------------------------------------------------------------------
+[INFO] Trimmed Nsight log: ../ncu_logs_tensor_only/tensor_M128_it1000.txt
+     128 |      128 |      128 |     1000 |    0 |      107.716 |         107.716
+[INFO] Trimmed Nsight log: ../ncu_logs_tensor_only/tensor_M240_it1000.txt
+     240 |      240 |      240 |     1000 |    0 |      144.481 |         144.481
+[INFO] Trimmed Nsight log: ../ncu_logs_tensor_only/tensor_M256_it1000.txt
+     256 |      256 |      256 |     1000 |    0 |      128.193 |         128.193
+[INFO] Trimmed Nsight log: ../ncu_logs_tensor_only/tensor_M512_it1000.txt
+     512 |      512 |      512 |     1000 |    0 |      306.690 |         306.690
+[INFO] Trimmed Nsight log: ../ncu_logs_tensor_only/tensor_M2048_it1000.txt
+    2048 |     2048 |     2048 |     1000 |    0 |    12516.064 |       12516.064
+
+Results saved to results_tensor_only.csv
+Nsight logs saved to: ../ncu_logs_tensor_only/
+
+================ CUDA + Tensor Concurrent-Only Sweep (ncu) ================
+
+      Nvec |     iters |    t_iters |     M |     N |     K | Repeats |  Concurrent (ms)
+----------------------------------------------------------------------------------------------------
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N8192_M128.txt
+      8192 |    150000 |       1000 |   128 |   128 |   128 |       4 |          228.337
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N8192_M240.txt
+      8192 |    150000 |       1000 |   240 |   240 |   240 |       4 |          253.444
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N8192_M256.txt
+      8192 |    150000 |       1000 |   256 |   256 |   256 |       4 |          247.191
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N8192_M512.txt
+      8192 |    150000 |       1000 |   512 |   512 |   512 |       4 |          414.379
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N8192_M2048.txt
+      8192 |    150000 |       1000 |  2048 |  2048 |  2048 |       4 |        12594.041
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N14500_M128.txt
+     14500 |    150000 |       1000 |   128 |   128 |   128 |       4 |          216.807
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N14500_M240.txt
+     14500 |    150000 |       1000 |   240 |   240 |   240 |       4 |          258.276
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N14500_M256.txt
+     14500 |    150000 |       1000 |   256 |   256 |   256 |       4 |          248.601
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N14500_M512.txt
+     14500 |    150000 |       1000 |   512 |   512 |   512 |       4 |          415.305
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N14500_M2048.txt
+     14500 |    150000 |       1000 |  2048 |  2048 |  2048 |       4 |        12579.671
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N262144_M128.txt
+    262144 |    150000 |       1000 |   128 |   128 |   128 |       4 |          332.333
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N262144_M240.txt
+    262144 |    150000 |       1000 |   240 |   240 |   240 |       4 |          361.464
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N262144_M256.txt
+    262144 |    150000 |       1000 |   256 |   256 |   256 |       4 |          353.686
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N262144_M512.txt
+    262144 |    150000 |       1000 |   512 |   512 |   512 |       4 |          523.226
+[INFO] Trimmed Nsight log: ../ncu_logs_concurrent_only/ncu_N262144_M2048.txt
+    262144 |    150000 |       1000 |  2048 |  2048 |  2048 |       4 |        12717.341
+
+Results saved to: /home/ivy/custom_workloads/git_repo/results_csv/results_concurrent_only_ncu.csv
+Nsight logs saved to: ../ncu_logs_concurrent_only/
+/usr/local/lib/python3.10/dist-packages/matplotlib/projections/__init__.py:63: UserWarning: Unable to import Axes3D. This may be due to multiple versions of Matplotlib being installed (e.g. as a system package and as a pip package). As a result, the 3D projection is not available.
+  warnings.warn("Unable to import Axes3D. This may be due to multiple versions of "
+
+N=262144, M=256
+  CUDA_solo: {'compute': 78.42, 'occupancy': 82.74}
+  Tensor_solo: {'compute': 16.29, 'occupancy': 6.76}
+  CUDA_concurrent: {'compute': 78.5, 'occupancy': 82.76}
+  Tensor_concurrent: {'compute': 16.29, 'occupancy': 6.77}
+
+N=262144, M=2048
+  CUDA_solo: {'compute': 78.42, 'occupancy': 82.74}
+  Tensor_solo: {'compute': 22.41, 'occupancy': 32.71}
+  CUDA_concurrent: {'compute': 78.5, 'occupancy': 82.72}
+  Tensor_concurrent: {'compute': 22.38, 'occupancy': 32.72}
+
+N=262144, M=240
+  CUDA_solo: {'compute': 78.42, 'occupancy': 82.74}
+  Tensor_solo: {'compute': 10.22, 'occupancy': 5.73}
+  CUDA_concurrent: {'compute': 78.47, 'occupancy': 82.73}
+  Tensor_concurrent: {'compute': 10.18, 'occupancy': 5.71}
+
+N=262144, M=128
+  CUDA_solo: {'compute': 78.42, 'occupancy': 82.74}
+  Tensor_solo: {'compute': 5.56, 'occupancy': 2.08}
+  CUDA_concurrent: {'compute': 78.45, 'occupancy': 82.73}
+  Tensor_concurrent: {'compute': 5.57, 'occupancy': 2.08}
+
+N=262144, M=512
+  CUDA_solo: {'compute': 78.42, 'occupancy': 82.74}
+  Tensor_solo: {'compute': 21.15, 'occupancy': 24.14}
+  CUDA_concurrent: {'compute': 78.54, 'occupancy': 82.74}
+  Tensor_concurrent: {'compute': 21.2, 'occupancy': 24.14}
+
+N=14500, M=240
+  CUDA_solo: {'compute': 40.86, 'occupancy': 15.63}
+  Tensor_solo: {'compute': 10.22, 'occupancy': 5.73}
+  CUDA_concurrent: {'compute': 40.86, 'occupancy': 15.69}
+  Tensor_concurrent: {'compute': 10.06, 'occupancy': 5.67}
+
+N=14500, M=128
+  CUDA_solo: {'compute': 40.86, 'occupancy': 15.63}
+  Tensor_solo: {'compute': 5.56, 'occupancy': 2.08}
+  CUDA_concurrent: {'compute': 40.86, 'occupancy': 16.02}
+  Tensor_concurrent: {'compute': 5.56, 'occupancy': 2.08}
+
+N=14500, M=512
+  CUDA_solo: {'compute': 40.86, 'occupancy': 15.63}
+  Tensor_solo: {'compute': 21.15, 'occupancy': 24.14}
+  CUDA_concurrent: {'compute': 40.86, 'occupancy': 15.68}
+  Tensor_concurrent: {'compute': 21.29, 'occupancy': 24.14}
+
+N=14500, M=256
+  CUDA_solo: {'compute': 40.86, 'occupancy': 15.63}
+  Tensor_solo: {'compute': 16.29, 'occupancy': 6.76}
+  CUDA_concurrent: {'compute': 40.86, 'occupancy': 15.77}
+  Tensor_concurrent: {'compute': 14.6, 'occupancy': 6.69}
+
+N=14500, M=2048
+  CUDA_solo: {'compute': 40.86, 'occupancy': 15.63}
+  Tensor_solo: {'compute': 22.41, 'occupancy': 32.71}
+  CUDA_concurrent: {'compute': 40.86, 'occupancy': 15.87}
+  Tensor_concurrent: {'compute': 22.4, 'occupancy': 32.74}
+
+N=8192, M=240
+  CUDA_solo: {'compute': 23.04, 'occupancy': 15.85}
+  Tensor_solo: {'compute': 10.22, 'occupancy': 5.73}
+  CUDA_concurrent: {'compute': 23.04, 'occupancy': 15.76}
+  Tensor_concurrent: {'compute': 10.09, 'occupancy': 5.7}
+
+N=8192, M=2048
+  CUDA_solo: {'compute': 23.04, 'occupancy': 15.85}
+  Tensor_solo: {'compute': 22.41, 'occupancy': 32.71}
+  CUDA_concurrent: {'compute': 23.04, 'occupancy': 15.73}
+  Tensor_concurrent: {'compute': 22.41, 'occupancy': 32.74}
+
+N=8192, M=256
+  CUDA_solo: {'compute': 23.04, 'occupancy': 15.85}
+  Tensor_solo: {'compute': 16.29, 'occupancy': 6.76}
+  CUDA_concurrent: {'compute': 23.04, 'occupancy': 15.66}
+  Tensor_concurrent: {'compute': 14.04, 'occupancy': 6.71}
+
+N=8192, M=128
+  CUDA_solo: {'compute': 23.04, 'occupancy': 15.85}
+  Tensor_solo: {'compute': 5.56, 'occupancy': 2.08}
+  CUDA_concurrent: {'compute': 23.04, 'occupancy': 15.76}
+  Tensor_concurrent: {'compute': 5.56, 'occupancy': 2.08}
+
+N=8192, M=512
+  CUDA_solo: {'compute': 23.04, 'occupancy': 15.85}
+  Tensor_solo: {'compute': 21.15, 'occupancy': 24.14}
+  CUDA_concurrent: {'compute': 23.04, 'occupancy': 15.82}
+  Tensor_concurrent: {'compute': 21.18, 'occupancy': 24.13}
+
+================ CUDA + Tensor Sweep ================
+
+      Nvec |     iters |  t_iters |     M |     N |     K | Repeats |    CUDA (ms) |  Tensor (ms) | Serialized (ms) | Concurrent (ms)
+--------------------------------------------------------------------------------------------------------------------------------------------
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N256_M256.txt
+       256 |   1500000 |     1000 |   256 |   256 |   256 |       3 |      227.846 |      130.709 |         358.555 |         350.446
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N256_M512.txt
+       256 |   1500000 |     1000 |   512 |   512 |   512 |       3 |      226.850 |      300.999 |         527.849 |         518.622
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N256_M1024.txt
+       256 |   1500000 |     1000 |  1024 |  1024 |  1024 |       3 |      220.957 |     1702.126 |        1923.083 |        1922.579
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N256_M2048.txt
+       256 |   1500000 |     1000 |  2048 |  2048 |  2048 |       3 |      219.303 |    12484.211 |       12703.514 |       12682.146
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N512_M256.txt
+       512 |   1500000 |     1000 |   256 |   256 |   256 |       3 |      228.857 |      133.893 |         362.750 |         355.328
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N512_M512.txt
+       512 |   1500000 |     1000 |   512 |   512 |   512 |       3 |      227.846 |      301.597 |         529.443 |         524.345
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N512_M1024.txt
+       512 |   1500000 |     1000 |  1024 |  1024 |  1024 |       3 |      226.384 |     1696.041 |        1922.425 |        1918.978
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N512_M2048.txt
+       512 |   1500000 |     1000 |  2048 |  2048 |  2048 |       3 |      222.393 |    12496.019 |       12718.412 |       12680.979
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N1024_M256.txt
+      1024 |   1500000 |     1000 |   256 |   256 |   256 |       3 |      226.772 |      133.190 |         359.962 |         356.334
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N1024_M512.txt
+      1024 |   1500000 |     1000 |   512 |   512 |   512 |       3 |      235.211 |      303.740 |         538.951 |         527.242
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N1024_M1024.txt
+      1024 |   1500000 |     1000 |  1024 |  1024 |  1024 |       3 |      225.203 |     1694.043 |        1919.246 |        1921.337
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N1024_M2048.txt
+      1024 |   1500000 |     1000 |  2048 |  2048 |  2048 |       3 |      228.216 |    12467.527 |       12695.743 |       12702.613
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N4096_M256.txt
+      4096 |   1500000 |     1000 |   256 |   256 |   256 |       3 |      226.574 |      140.083 |         366.657 |         366.186
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N4096_M512.txt
+      4096 |   1500000 |     1000 |   512 |   512 |   512 |       3 |      227.198 |      301.944 |         529.142 |         525.688
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N4096_M1024.txt
+      4096 |   1500000 |     1000 |  1024 |  1024 |  1024 |       3 |      228.962 |     1704.630 |        1933.592 |        1931.178
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N4096_M2048.txt
+      4096 |   1500000 |     1000 |  2048 |  2048 |  2048 |       3 |      224.661 |    12478.147 |       12702.808 |       12690.886
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N8192_M256.txt
+      8192 |   1500000 |     1000 |   256 |   256 |   256 |       3 |      231.442 |      137.306 |         368.748 |         363.335
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N8192_M512.txt
+      8192 |   1500000 |     1000 |   512 |   512 |   512 |       3 |      228.197 |      303.745 |         531.942 |         530.285
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N8192_M1024.txt
+      8192 |   1500000 |     1000 |  1024 |  1024 |  1024 |       3 |      231.909 |     1705.822 |        1937.731 |        1920.710
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N8192_M2048.txt
+      8192 |   1500000 |     1000 |  2048 |  2048 |  2048 |       3 |      228.073 |    12491.586 |       12719.659 |       12702.368
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N16384_M256.txt
+     16384 |   1500000 |     1000 |   256 |   256 |   256 |       3 |      235.136 |      132.826 |         367.962 |         358.167
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N16384_M512.txt
+     16384 |   1500000 |     1000 |   512 |   512 |   512 |       3 |      232.213 |      302.423 |         534.636 |         528.604
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N16384_M1024.txt
+     16384 |   1500000 |     1000 |  1024 |  1024 |  1024 |       3 |      226.513 |     1698.858 |        1925.371 |        1918.841
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N16384_M2048.txt
+     16384 |   1500000 |     1000 |  2048 |  2048 |  2048 |       3 |      215.429 |    12454.229 |       12669.658 |       12682.945
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N32768_M256.txt
+     32768 |   1500000 |     1000 |   256 |   256 |   256 |       3 |      294.856 |      131.525 |         426.381 |         423.680
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N32768_M512.txt
+     32768 |   1500000 |     1000 |   512 |   512 |   512 |       3 |      298.089 |      300.145 |         598.234 |         590.950
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N32768_M1024.txt
+     32768 |   1500000 |     1000 |  1024 |  1024 |  1024 |       3 |      294.504 |     1700.182 |        1994.686 |        1992.450
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N32768_M2048.txt
+     32768 |   1500000 |     1000 |  2048 |  2048 |  2048 |       3 |      296.315 |    12462.028 |       12758.343 |       12753.782
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N65536_M256.txt
+     65536 |   1500000 |     1000 |   256 |   256 |   256 |       3 |      490.199 |      132.433 |         622.632 |         615.124
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N65536_M512.txt
+     65536 |   1500000 |     1000 |   512 |   512 |   512 |       3 |      486.178 |      301.293 |         787.471 |         783.897
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N65536_M1024.txt
+     65536 |   1500000 |     1000 |  1024 |  1024 |  1024 |       3 |      481.655 |     1699.642 |        2181.297 |        2181.240
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N65536_M2048.txt
+     65536 |   1500000 |     1000 |  2048 |  2048 |  2048 |       3 |      476.048 |    12453.870 |       12929.918 |       12949.493
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N131072_M256.txt
+    131072 |   1500000 |     1000 |   256 |   256 |   256 |       3 |      759.473 |      131.686 |         891.159 |         895.979
+/usr/local/lib/python3.10/dist-packages/matplotlib/projections/__init__.py:63: UserWarning: Unable to import Axes3D. This may be due to multiple versions of Matplotlib being installed (e.g. as a system package and as a pip package). As a result, the 3D projection is not available.
+  warnings.warn("Unable to import Axes3D. This may be due to multiple versions of "
+Saved: combined_plots/2025-12-18_03-38-17/individual_plots/runtime_Nvec_8192.png
+Saved: combined_plots/2025-12-18_03-38-17/individual_plots/speedup_Nvec_8192.png
+Saved: combined_plots/2025-12-18_03-38-17/individual_plots/runtime_Nvec_14500.png
+Saved: combined_plots/2025-12-18_03-38-17/individual_plots/speedup_Nvec_14500.png
+Saved: combined_plots/2025-12-18_03-38-17/individual_plots/runtime_Nvec_262144.png
+Saved: combined_plots/2025-12-18_03-38-17/individual_plots/speedup_Nvec_262144.png
+Saved combined grid: combined_plots/2025-12-18_03-38-17/runtime_speedup_grid.png
+Saved heatmap: combined_plots/2025-12-18_03-38-17/heatmap_speedup.png
+cc1plus: fatal error: ../src_cuda/serial_concurrent.cu: No such file or directory
+compilation terminated.
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N131072_M512.txt
+    131072 |   1500000 |     1000 |   512 |   512 |   512 |       3 |      758.278 |      304.653 |        1062.931 |        1061.737
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N131072_M1024.txt
+    131072 |   1500000 |     1000 |  1024 |  1024 |  1024 |       3 |      763.021 |     1701.958 |        2464.979 |        2448.966
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N131072_M2048.txt
+    131072 |   1500000 |     1000 |  2048 |  2048 |  2048 |       3 |      759.549 |    12487.130 |       13246.679 |       13226.544
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N262144_M256.txt
+    262144 |   1500000 |     1000 |   256 |   256 |   256 |       3 |     1308.819 |      132.064 |        1440.883 |        1442.078
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N262144_M512.txt
+    262144 |   1500000 |     1000 |   512 |   512 |   512 |       3 |     1309.566 |      302.779 |        1612.345 |        1611.222
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N262144_M1024.txt
+    262144 |   1500000 |     1000 |  1024 |  1024 |  1024 |       3 |     1308.783 |     1700.495 |        3009.278 |        3002.489
+[INFO] Trimmed Nsight log to first report per kernel: ../ncu_logs_serial_concurrent/ncu_N262144_M2048.txt
+    262144 |   1500000 |     1000 |  2048 |  2048 |  2048 |       3 |     1308.391 |    12476.651 |       13785.042 |       13765.598
+
+Results saved to: results.csv
+
+[INFO] Building ../src_cuda/bin_cuda/serial_concurrent from ../src_cuda/serial_concurrent.cu ...
+Traceback (most recent call last):
+  File "/home/ivy/custom_workloads/git_repo/src_py/sweep_serial_concurrent_no_ncu.py", line 433, in <module>
+    main()
+  File "/home/ivy/custom_workloads/git_repo/src_py/sweep_serial_concurrent_no_ncu.py", line 381, in main
+    ensure_binary()
+  File "/home/ivy/custom_workloads/git_repo/src_py/sweep_serial_concurrent_no_ncu.py", line 376, in ensure_binary
+    raise RuntimeError(f"nvcc build failed with code {result.returncode}")
+RuntimeError: nvcc build failed with code 1
+Traceback (most recent call last):
+  File "/home/ivy/custom_workloads/git_repo/STRING_OF_COMMANDS.py", line 20, in <module>
+    subprocess.run(["python3", "src_py/sweep_serial_concurrent_no_ncu.py"], check=True)
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['python3', 'src_py/sweep_serial_concurrent_no_ncu.py']' returned non-zero exit status 1.

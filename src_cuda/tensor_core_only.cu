@@ -110,8 +110,10 @@ int main(int argc, char** argv) {
 
     float ms = 0.f;
     cudaEventElapsedTime(&ms, start, stop);
-    printf("Tensor Core WMMA GEMM: M=%d tensor_iters=%d time=%.3f ms\n",
-           M, tensor_iters, ms);
+    //printf("Tensor Core WMMA GEMM: M=%d tensor_iters=%d time=%.3f ms\n", M, tensor_iters, ms);
+
+    printf("Tensor Core WMMA GEMM: %dx%dx%d tensor_iters=%d time=%.3f ms\n",
+       M, N, K, tensor_iters, ms);
 
     // Optional: read back a few values to ensure activity
     float sample = 0.f;
